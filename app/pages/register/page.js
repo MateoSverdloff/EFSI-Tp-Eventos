@@ -11,10 +11,8 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('el usuario es: ', username, password, last_name, first_name)
     try {
       const response = await register({ username, password, last_name, first_name });
-      console.log('el usuario es: ', username, password, last_name, first_name)
       console.log('Register successful:', response);
     } catch (error) {
       console.error('Register failed:', error);
@@ -22,33 +20,47 @@ export default function RegisterPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Register</h1>
-      <input
-        type="email"
-        placeholder="Email"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Nombre"
-        value={first_name}  // Asegúrate de que coincide con first_name
-        onChange={(e) => setFirstName(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Apellido"
-        value={last_name}  // Asegúrate de que coincide con last_name
-        onChange={(e) => setLastName(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Register</button>
-    </form>
+    <div className="background">
+      <div className="shape"></div>
+      <div className="shape"></div>
+
+      <form onSubmit={handleSubmit}>
+        <h3>Register Here</h3>
+
+        <label htmlFor="username">Email</label>
+        <input
+          type="email"
+          placeholder="Email"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <label htmlFor="first_name">First Name</label>
+        <input
+          type="text"
+          placeholder="First Name"
+          value={first_name}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+
+        <label htmlFor="last_name">Last Name</label>
+        <input
+          type="text"
+          placeholder="Last Name"
+          value={last_name}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button type="submit">Register</button>
+      </form>
+    </div>
   );
 }
