@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { register } from '../../api.js';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -14,10 +15,12 @@ export default function RegisterPage() {
     try {
       const response = await register({ username, password, last_name, first_name });
       console.log('Register successful:', response);
+      router.push('./eventos'); //cambiar prro
     } catch (error) {
       console.error('Register failed:', error);
     }
   };
+  
 
   return (
     <div className="background">

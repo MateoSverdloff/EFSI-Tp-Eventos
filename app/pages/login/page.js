@@ -5,7 +5,7 @@ import { login } from '../../api.js';
 import { useRouter } from 'next/navigation.js';
 
 export default function LoginPage() {
-  const router = useRouter(); // Debe estar disponible si es client-side
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,7 +14,8 @@ export default function LoginPage() {
     try {
       const response = await login({ username, password });
       console.log('Login successful:', response);
-      // Manejar la redirección o almacenamiento de token aquí
+      router.push('./eventos');
+      // Manejar la redirección o almacenamiento de token ACA
     } catch (error) {
       console.error('Login failed:', error);
     }
