@@ -15,7 +15,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(username, password);
-      router.push('./eventos'); 
+      router.push('../../context/authConext'); 
     } catch (error) {
       setError('Login failed: ' + error.message);
     }
