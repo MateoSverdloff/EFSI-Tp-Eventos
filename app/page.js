@@ -1,17 +1,22 @@
-"use client"
+"use client";
 
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function App() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/pages/login');
+  }, [router]);
+
   return (
     <div>
       <nav>
-        <Link href="/pages/login">Login</Link>
-        <Link href="./pages/register">Register</Link>
-        <Link href="/pages/catalog">Catalog</Link>
+        <a href="/pages/login">Login</a>
+        <a href="/pages/register">Register</a>
+        <a href="/pages/catalog">Catalog</a>
       </nav>
-
-      {/* Aquí puedes agregar el contenido principal de la página de inicio */}
     </div>
   );
 }

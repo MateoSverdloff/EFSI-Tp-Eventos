@@ -1,23 +1,23 @@
 "use client";
 
 import { useState } from 'react';
-import { login } from '../../api.js';
+import { useAuth } from '../../context/authConext'; 
 import { useRouter } from 'next/navigation.js';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await login({ username, password });
-      console.log('Login successful:', response);
-      router.push('./eventos');
-      // Manejar la redirección o almacenamiento de token ACA
+      await login(username, password);
+      router.push('./eventos'); 
     } catch (error) {
-      console.error('Login failed:', error);
+      setError('Login failed: ' + error.message);
     }
   };
 
@@ -32,6 +32,8 @@ export default function LoginPage() {
 
       <form onSubmit={handleSubmit}>
         <h3>Login Here</h3>
+
+        {error && <p className="error">{error}</p>}
 
         <label htmlFor="username">Username</label>
         <input

@@ -1,4 +1,7 @@
+import React from 'react';
+import Navbar from './components/navbar';
 import localFont from "next/font/local";
+import { AuthProvider } from './context/authConext'; // Ajusta la ruta según sea necesario
 import "./globals.css";
 
 const geistSans = localFont({
@@ -21,7 +24,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <AuthProvider>
+          <Navbar />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
