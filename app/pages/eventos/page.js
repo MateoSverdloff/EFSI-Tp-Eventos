@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation'; // Verifica la importación
 
 export default function CatalogPage() {
   const [items, setItems] = useState([]);
@@ -34,27 +34,6 @@ export default function CatalogPage() {
     setItems(initialItems);
   }, []);
 
-  useEffect(() => {
-    const toggleDayNight = () => {
-      document.querySelector("body").classList.add("toggle");
-      setTimeout(() => {
-        document.querySelector("body").classList.toggle("light");
-        setTimeout(
-          () => document.querySelector("body").classList.remove("toggle"),
-          10
-        );
-      }, 5);
-    };
-    const input = document.querySelector(".day-night input");
-  
-    if (input) {
-      input.addEventListener("change", toggleDayNight);
-      return () => {
-        input.removeEventListener("change", toggleDayNight);
-      };
-    }
-  }, []);
-
   const handleAddEvent = () => {
     const newEvent = createEvent(
       'Nuevo Evento',
@@ -68,6 +47,7 @@ export default function CatalogPage() {
   };
 
   const handleCardClick = (eventTitle) => {
+    console.log("Card clicked:", eventTitle); // Para depuración
     router.push(`./description?event=${encodeURIComponent(eventTitle)}`);
   };
 
@@ -80,6 +60,7 @@ export default function CatalogPage() {
           <p>{item.description}</p>
         </div>
       ))}
+      <button onClick={handleAddEvent}>Agregar Evento</button> {/* Botón para agregar un nuevo evento */}
     </div>
   );
 }

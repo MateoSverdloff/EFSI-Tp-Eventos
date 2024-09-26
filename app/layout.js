@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './components/navbar';
 import localFont from "next/font/local";
-import { AuthProvider } from './context/authConext'; // Ajusta la ruta según sea necesario
+import { AuthProvider } from './context/authContext'; // Ajusta la ruta según sea necesario
 import "./globals.css";
 
 const geistSans = localFont({
