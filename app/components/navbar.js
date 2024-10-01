@@ -6,11 +6,12 @@ import { useState } from 'react';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  console.log('en el navbar: ', user)
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = () => {
-    logout(); 
+    logout();
     router.push('/pages/login');
   };
 

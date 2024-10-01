@@ -7,44 +7,9 @@ import { login as loginService } from '../../api.js';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-
-  const login = async (username, password) => {
-    try {
-      const response = await loginService({ username, password });
-      if (response.success) {
-        setIsAuthenticated(true);
-        setUser(response.user);
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const register = async (firstName, lastName, username, password) => {
-    // Lógica para registrar al usuario...
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-    setUser(null);
-  };
-
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, login, register, logout, user }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-// Componente LoginPage
 export default function LoginPage() {
-  const router = useRouter();
-  const { login } = useAuth();
+  const router = useRouter(); 
+  const { authenticateUser } = useAuth();  // Cambiado para reflejar el nuevo nombre
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -52,10 +17,11 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(username, password);
-      router.push('../../pages/eventos'); // Cambia a la ruta correcta
+      console.log('Attempting to log in...');
+      await authenticateUser(username, password);  // Cambiado para reflejar el nuevo nombre
+      router.push('../../pages/eventos');
     } catch (error) {
-      console.error(error);
+      console.error('Login failed:', error);
       setError('Login failed: ' + error.message);
     }
   };

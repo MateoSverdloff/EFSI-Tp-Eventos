@@ -4,15 +4,17 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/api/user/';
 
-export const login = async (data) => {
+export const login = async ({ username, password }) => {
   try {
-    const response = await axios.post(`${API_URL}login`, data);
+    const response = await axios.post(`${API_URL}login`, { username, password });
     return response.data;
   } catch (error) {
-    console.error('Login error:', error); 
+    console.error('Login error:', error);
     throw error;
   }
 };
+
+
 
 export const register = async (data) => {
   { console.log('<<<<<<<<<<<<<<<<',data) }
