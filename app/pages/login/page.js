@@ -1,24 +1,29 @@
 "use client";
 
-import React, { createContext, useState, useContext } from 'react'; // Importa todo desde aquí
+import React, { createContext, useState, useContext, useEffect } from 'react'; 
 import { useAuth } from '../../context/authContext'; 
-import { useRouter } from 'next/navigation.js';
+import { useRouter } from 'next/navigation';
 import { login as loginService } from '../../api.js';
 
 const AuthContext = createContext();
 
 export default function LoginPage() {
   const router = useRouter(); 
-  const { authenticateUser } = useAuth();  // Cambiado para reflejar el nuevo nombre
+  const { authenticateUser } = useAuth();  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  // Eliminar el localStorage al cargar la página de inicio de sesión
+  useEffect(() => {
+    localStorage.removeItem('user');
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log('Attempting to log in...');
-      await authenticateUser(username, password);  // Cambiado para reflejar el nuevo nombre
+      await authenticateUser(username, password);
       router.push('../../pages/eventos');
     } catch (error) {
       console.error('Login failed:', error);

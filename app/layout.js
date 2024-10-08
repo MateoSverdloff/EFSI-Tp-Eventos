@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './components/navbar';
+import Footer from './components/footer'
 import localFont from "next/font/local";
 import { AuthProvider } from './context/authContext'; // Ajusta la ruta según sea necesario
 import "./globals.css";
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <Navbar />
           {children}
+          <Footer />
         </AuthProvider>
       </body>
     </html>
