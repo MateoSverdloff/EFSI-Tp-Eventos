@@ -1,31 +1,62 @@
 "use client";
 
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { getEvents } from '../../api.js'; // Asegúrate de importar la función
 
 export default function DescripcionPage() {
   const searchParams = useSearchParams();
-  const eventTitle = searchParams.get('event');
+  const eventId = searchParams.get('event'); // Cambia esto para obtener el ID
+  const [eventDetails, setEventDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchEventDetails = async () => {
+      try {
+        const events = await getEvents(); // Obtener todos los eventos
+        const event = events.find(evt => evt.id === parseInt(eventId)); // Busca el evento por ID
+        setEventDetails(event); // Establece los detalles del evento
+      } catch (error) {
+        console.error('Error al obtener los detalles del evento:', error);
+      }
+    };
+
+    fetchEventDetails();
+  }, [eventId]);
+
+  if (!eventDetails) {
+    return <p>Cargando...</p>; // Muestra un mensaje de carga
+  }
 
   return (
     <div>
       <main className="l-card">
         <section className="l-card__text">
+          <h1>{eventDetails.name}</h1>
           <p>
-            Aquí iría la descripción detallada del evento: <strong>{eventTitle}</strong>. 
-            Este es un comentario sobre este evento, mostrado sobre un fondo con puntos, ¡y eso es realmente genial!
+            {eventDetails.description}
+          </p>
+          <p>
+            <strong>Fecha:</strong> {new Date(eventDetails.start_date).toLocaleDateString()}
+          </p>
+          <p>
+            <strong>Duración:</strong> {eventDetails.duration_in_minutes} minutos
+          </p>
+          <p>
+            <strong>Precio:</strong> ${eventDetails.price}
+          </p>
+          <p>
+            <strong>Capacidad máxima:</strong> {eventDetails.max_assistance}
           </p>
         </section>
-        <section className="l-card__user">
-          <div className="l-card__userImage">
-            <img
-              src=""
-              alt="Imagen de Usuario"
-            />
-          </div>
-          <div className="l-card__userInfo">
-            <span>{eventTitle} Organizador</span>
-            <span>Descripción del organizador</span>
-          </div>
+        <section className="l-card__userInfo">
+          <span>{eventDetails.creator_user.first_name} {eventDetails.creator_user.last_name} (Organizador)</span>
+          <span>Descripción del organizador</span>
+        </section>
+        <section className="l-card__location">
+          <h2>Lugar del Evento</h2>
+          <p><strong>{eventDetails.event_location.name}</strong></p>
+          <p>{eventDetails.event_location.full_address}</p>
+          <p><strong>Ubicación:</strong> {eventDetails.event_location.location.name}, {eventDetails.event_location.location.province.full_name}</p>
         </section>
       </main>
     </div>
