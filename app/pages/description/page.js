@@ -2,19 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { getEvents } from '../../api.js'; // Asegúrate de importar la función
+import { getEvents } from '../../api.js';
 
 export default function DescripcionPage() {
   const searchParams = useSearchParams();
-  const eventId = searchParams.get('event'); // Cambia esto para obtener el ID
+  const eventId = searchParams.get('event');
   const [eventDetails, setEventDetails] = useState(null);
 
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        const events = await getEvents(); // Obtener todos los eventos
-        const event = events.find(evt => evt.id === parseInt(eventId)); // Busca el evento por ID
-        setEventDetails(event); // Establece los detalles del evento
+        const events = await getEvents();
+        const event = events.find(evt => evt.id === parseInt(eventId));
+        setEventDetails(event);
       } catch (error) {
         console.error('Error al obtener los detalles del evento:', error);
       }
@@ -24,7 +24,7 @@ export default function DescripcionPage() {
   }, [eventId]);
 
   if (!eventDetails) {
-    return <p>Cargando...</p>; // Muestra un mensaje de carga
+    return <p>Cargando...</p>;
   }
 
   return (

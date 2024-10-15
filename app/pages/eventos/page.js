@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // Verifica la importación
+import { useRouter } from 'next/navigation';
 import { getEvents } from '../../api.js';
 
 export default function CatalogPage() {

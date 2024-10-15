@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { register } from '../../api.js';
 import { useRouter } from 'next/navigation';
 
+
+
+
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -11,11 +14,11 @@ export default function RegisterPage() {
   const [first_name, setFirstName] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+
     try {
       const response = await register({ username, password, last_name, first_name });
       console.log('Register successful:', response);
-      router.push('./eventos'); //cambiar prro
+      window.location.href='/pages/eventos';
     } catch (error) {
       console.error('Register failed:', error);
     }
