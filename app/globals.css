@@ -755,23 +755,41 @@ img {
 }
 
 .l-card__text p {
-	font-size: 30px;
+	font-size: 25px;
 	font-family: "Vollkorn", serif;
 	font-weight: 400;
 	color: #3f3f55;
 	text-align: left;
 }
 
-.l-card__text p::after {
-	content: "\201D";
-	display: inline;
-	color: #999;
+.l-card__text h1 {
+	font-size: 30px;
+	font-family: "Vollkorn", serif;
+	font-weight: 600;
+	color: #000000;
+	text-align: center;
 }
 
-.l-card__text p::before {
-	content: "\201C";
-	display: inline;
-	color: #999;
+.l-card__text h4{
+  font-size: 20px;
+	font-family: "Vollkorn", serif;
+	font-weight: 400;
+	color: #3f3f55;
+	text-align: center;
+  margin-bottom: 15px;
+}
+
+.l-card__location h2{
+  font-size: 18px;
+  text-align: center;
+  margin: 15px;
+  color: #3f3f55;
+}
+
+.l-card__location p{
+  font-size: 15px;
+  margin: 5px;
+  color: #3f3f55;
 }
 
 .l-card__user {
@@ -803,9 +821,11 @@ img {
 
 .l-card__userInfo span:nth-child(1) {
 	font-weight: bold;
+  text-align: center;
 	font-family: sans-serif;
 	font-size: 14px;
 	color: #3f3f55;
+  margin: 5px;
 }
 .l-card__userInfo span:nth-child(2) {
 	color: #adada6;

@@ -27,13 +27,11 @@ export const AuthProvider = ({ children }) => {
   const authenticateUser = async (username, password) => {
     try {
       const response = await loginService({ username, password });
-      console.log(response)
       if (response.success) {
-        const user = jwtDecode(response.token)
-        console.log('user', user)
+        const user = jwtDecode(response.token);
         setIsAuthenticated(true);
         setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify({ ...user, token: response.token }));
       } else {
         throw new Error(response.message);
       }
@@ -41,6 +39,7 @@ export const AuthProvider = ({ children }) => {
       throw error;
     }
   };
+  
 
   const register = async (firstName, lastName, username, password) => {
     // Lógica para registrar al usuario...
