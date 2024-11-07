@@ -13,7 +13,7 @@ export default function CatalogPage() {
     // Si el usuario no está autenticado, redirige al login
     if (!isAuthenticated) {
       alert("No tienes autorización para acceder a esta página. Por favor, inicia sesión.");
-      router.push('/login');
+      router.push('/pages/login');
       return;
     }
 

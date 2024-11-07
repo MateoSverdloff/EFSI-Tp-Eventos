@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/authContext';  // Importar useAuth
+import { useAuth } from '../../context/authContext';
 import { useRouter } from 'next/navigation';
-import * as jwt_decode from 'jwt-decode';
 
 export default function RegisterPage() {
   
@@ -19,11 +18,11 @@ export default function RegisterPage() {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();  // Evitar el comportamiento por defecto del formulario
+    e.preventDefault(); 
 
     try {
       console.log('Attempting to register...');
-      await registerUser(username, password, first_name, last_name);  // Usar registerUser del context
+      await registerUser(username, password, first_name, last_name);
       router.push('/pages/eventos');
     } catch (error) {
       console.error('Registration failed:', error);

@@ -32,7 +32,6 @@ export default function Navbar() {
       </div>
 
       <div className="navbar__user">
-        {/* Usamos el username directamente si no tienes first_name o last_name */}
         {user && user.username ? (
           <>
             <span

@@ -1,14 +1,14 @@
 "use client";
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { login as loginService, register as registerService } from '../api.js';  // Agregar registerService
-import * as jwt_decode from 'jwt-decode';
+import { login as loginService, register as registerService } from '../api.js';
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);  // Indicador de carga
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -24,7 +24,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await loginService({ username, password });
       if (response.success) {
-        const user = jwt_decode(response.token);
+        console.log(response.token)
+        const user = jwtDecode(response.token);
         setIsAuthenticated(true);
         setUser(user);
         localStorage.setItem('user', JSON.stringify({ ...user, token: response.token }));
@@ -36,12 +37,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const registerUser = async (username, password, first_name, last_name) => {  // Nueva función para registro
+  const registerUser = async (username, password, first_name, last_name) => {
     try {
       const response = await registerService({ username, password, first_name, last_name });
-      console.log('RESPUESTA', reponse)
       if (response.success) {
-        const user = jwt_decode(response.token);
+        const user = jwtDecode(response.token);
         setIsAuthenticated(true);
         setUser(user);
         localStorage.setItem('user', JSON.stringify({ ...user, token: response.token }));
