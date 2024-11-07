@@ -887,6 +887,7 @@ img {
 }
 
 .navbar__logout-button {
+  margin-top: 0px;
   cursor: pointer;
   background: none;
   border: none;

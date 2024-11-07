@@ -12,17 +12,22 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser && storedUser !== "undefined") {
-      try { 
+    const handleStorageChange = () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser && storedUser !== "undefined") {
         setUser(JSON.parse(storedUser));
         setIsAuthenticated(true);
-      } catch (error) {
-        console.error("Error parsing stored user data:", error);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
       }
-    }
-    setLoading(false);
-  }, []);
+    };
+    window.addEventListener('storage', handleStorageChange);
+  
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);  
   
   const authenticateUser = async (username, password) => {
     try {
@@ -42,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   
 
   const register = async (firstName, lastName, username, password) => {
-    // Lógica para registrar al usuario...
+    // Lógica para registrar al usuario
   };
 
   const logout = () => {

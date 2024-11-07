@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { register } from '../../api.js';
 import { useRouter } from 'next/navigation';
 
@@ -12,6 +12,10 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [last_name, setLastName] = useState('');
   const [first_name, setFirstName] = useState('');
+
+  useEffect(() => {
+    localStorage.removeItem('user');
+  }, []);
 
   const handleSubmit = async (e) => {
 

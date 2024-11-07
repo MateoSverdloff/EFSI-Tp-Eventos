@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getEvents, enrollInEvent, unsubscribeFromEvent  } from '../../api.js';
 import { useAuth } from '../../context/authContext.js';
+import { useRouter } from 'next/navigation';
+
+
 
 export default function DescripcionPage() {
   const searchParams = useSearchParams();
@@ -11,7 +14,16 @@ export default function DescripcionPage() {
   const [eventDetails, setEventDetails] = useState(null);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
-  const { isAuthenticated } = useAuth(); // Obtener si el usuario está autenticado
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      alert("No tienes autorización para acceder a esta página. Por favor, inicia sesión.");
+      router.push('/pages/login');
+    }
+  }, [isAuthenticated, router]);
+
 
   useEffect(() => {
     const fetchEventDetails = async () => {

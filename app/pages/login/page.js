@@ -14,7 +14,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // Eliminar el localStorage al cargar la página de inicio de sesión
   useEffect(() => {
     localStorage.removeItem('user');
   }, []);
