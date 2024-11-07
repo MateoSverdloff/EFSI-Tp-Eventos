@@ -2,9 +2,11 @@
 
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+
 export default function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
+  console.log('EL USUARIO ESSSSSS', user);
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -13,6 +15,7 @@ export default function Navbar() {
     router.push('/pages/login');
   };
 
+  // Si no está autenticado, no renderizamos el navbar
   if (!isAuthenticated) {
     return null;
   }
@@ -29,18 +32,25 @@ export default function Navbar() {
       </div>
 
       <div className="navbar__user">
-        <span
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}  
-          className="navbar__user-name"
-        >
-          {user.first_name} {user.last_name}
-        </span>
-        {isDropdownOpen && (
-          <div className="navbar__dropdown">
-            <button onClick={handleLogout} className="navbar__logout-button">
-              Cerrar sesión
-            </button>
-          </div>
+        {/* Usamos el username directamente si no tienes first_name o last_name */}
+        {user && user.username ? (
+          <>
+            <span
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}  
+              className="navbar__user-name"
+            >
+              {user.username}
+            </span>
+            {isDropdownOpen && (
+              <div className="navbar__dropdown">
+                <button onClick={handleLogout} className="navbar__logout-button">
+                  Cerrar sesión
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <span>No se pudo cargar el usuario</span>
         )}
       </div>
     </nav>

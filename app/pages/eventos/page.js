@@ -10,12 +10,13 @@ export default function CatalogPage() {
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
+    // Si el usuario no está autenticado, redirige al login
     if (!isAuthenticated) {
       alert("No tienes autorización para acceder a esta página. Por favor, inicia sesión.");
-      router.push('/pages/login');
+      router.push('/login');
       return;
     }
-    
+
     const fetchEvents = async () => {
       try {
         const eventos = await getEvents();

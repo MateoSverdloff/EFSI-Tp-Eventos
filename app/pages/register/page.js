@@ -1,33 +1,34 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { register } from '../../api.js';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../context/authContext';  // Importar useAuth
 import { useRouter } from 'next/navigation';
-
-
-
+import * as jwt_decode from 'jwt-decode';
 
 export default function RegisterPage() {
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [last_name, setLastName] = useState('');
   const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
+  const { registerUser } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     localStorage.removeItem('user');
   }, []);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();  // Evitar el comportamiento por defecto del formulario
 
     try {
-      const response = await register({ username, password, last_name, first_name });
-      console.log('Register successful:', response);
-      window.location.href='/pages/eventos';
+      console.log('Attempting to register...');
+      await registerUser(username, password, first_name, last_name);  // Usar registerUser del context
+      router.push('/pages/eventos');
     } catch (error) {
-      console.error('Register failed:', error);
+      console.error('Registration failed:', error);
     }
   };
-  
 
   return (
     <div className="background">

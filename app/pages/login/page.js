@@ -4,6 +4,8 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useAuth } from '../../context/authContext'; 
 import { useRouter } from 'next/navigation';
 import { login as loginService } from '../../api.js';
+import * as jwt_decode from 'jwt-decode';
+
 
 const AuthContext = createContext();
 

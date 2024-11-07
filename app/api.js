@@ -20,7 +20,6 @@ export const login = async ({ username, password }) => {
 
 
 export const register = async (data) => {
-
   try {
     const response = await axios.post(`${API_URL_USER}`, data);
     return response.data;
@@ -29,6 +28,7 @@ export const register = async (data) => {
     throw error;
   }
 };
+
 
 
 export const getEvents = async () => {

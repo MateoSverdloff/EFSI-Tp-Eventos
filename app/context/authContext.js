@@ -1,39 +1,30 @@
-"use client"
-
+"use client";
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { login as loginService } from '../api.js';
-import { jwtDecode } from 'jwt-decode'
+import { login as loginService, register as registerService } from '../api.js';  // Agregar registerService
+import * as jwt_decode from 'jwt-decode';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);  // Indicador de carga
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser && storedUser !== "undefined") {
-        setUser(JSON.parse(storedUser));
-        setIsAuthenticated(true);
-      } else {
-        setUser(null);
-        setIsAuthenticated(false);
-      }
-    };
-    window.addEventListener('storage', handleStorageChange);
-  
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);  
-  
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      setIsAuthenticated(true);
+    }
+    setLoading(false);
+  }, []);
+
   const authenticateUser = async (username, password) => {
     try {
       const response = await loginService({ username, password });
       if (response.success) {
-        const user = jwtDecode(response.token);
+        const user = jwt_decode(response.token);
         setIsAuthenticated(true);
         setUser(user);
         localStorage.setItem('user', JSON.stringify({ ...user, token: response.token }));
@@ -44,10 +35,22 @@ export const AuthProvider = ({ children }) => {
       throw error;
     }
   };
-  
 
-  const register = async (firstName, lastName, username, password) => {
-    // Lógica para registrar al usuario
+  const registerUser = async (username, password, first_name, last_name) => {  // Nueva función para registro
+    try {
+      const response = await registerService({ username, password, first_name, last_name });
+      console.log('RESPUESTA', reponse)
+      if (response.success) {
+        const user = jwt_decode(response.token);
+        setIsAuthenticated(true);
+        setUser(user);
+        localStorage.setItem('user', JSON.stringify({ ...user, token: response.token }));
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      throw error;
+    }
   };
 
   const logout = () => {
@@ -61,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, authenticateUser, register, logout, user }}>
+    <AuthContext.Provider value={{ isAuthenticated, authenticateUser, registerUser, logout, user }}>
       {children}
     </AuthContext.Provider>
   );
