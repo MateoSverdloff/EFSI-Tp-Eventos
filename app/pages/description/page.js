@@ -40,22 +40,18 @@ export default function DescripcionPage() {
   }, [eventId]);
 
   const handleEnrollment = async () => {
-    if (!isAuthenticated) return; // Asegurarse de que el usuario esté autenticado
-
+    if (!isAuthenticated) return;
     const storedUser = localStorage.getItem('user');
     const userData = storedUser ? JSON.parse(storedUser) : null;
-    const token = userData ? userData.token : null; // Obtener el token
+    const token = userData ? userData.token : null;
 
     try {
       if (isEnrolled) {
-        // Si ya está inscrito, llamar a la función de desinscripción
         const response = await unsubscribeFromEvent(eventId, token);
-        setIsEnrolled(false); // Actualizar el estado de inscripción
         console.log('Desinscrito:', response);
       } else {
-        // Si no está inscrito, llamar a la función de inscripción
         const response = await enrollInEvent(eventId, token);
-        setIsEnrolled(true); // Actualizar el estado de inscripción
+        setIsEnrolled(true);
         console.log('Inscrito:', response);
       }
     } catch (error) {
@@ -64,7 +60,7 @@ export default function DescripcionPage() {
   };
 
   const toggleLocation = () => {
-    setShowLocation(prev => !prev); // Alternar el estado de mostrar la ubicación
+    setShowLocation(prev => !prev);
   };
 
   if (!eventDetails) {
@@ -107,8 +103,6 @@ export default function DescripcionPage() {
         <section className="l-card__userInfo">
           <span>{eventDetails.creator_user.first_name} {eventDetails.creator_user.last_name} (Organizador)</span>
         </section>
-
-        {/* Botón de inscripción/desinscripción */}
         <button onClick={handleEnrollment} className="enrollment-button">
           {isEnrolled ? 'Desinscribirse' : 'Inscribirse'}
         </button>

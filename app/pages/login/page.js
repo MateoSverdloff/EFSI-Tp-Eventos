@@ -22,7 +22,6 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Attempting to log in...');
       await authenticateUser(username, password);
       router.push('../../pages/eventos');
     } catch (error) {
